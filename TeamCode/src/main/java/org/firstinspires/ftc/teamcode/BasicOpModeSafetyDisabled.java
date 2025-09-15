@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name = "Driver Op Mode (SAFE)", group = "Driver Op Mode")
-public class BasicOpMode extends LinearOpMode {
+@TeleOp(name = "Driver Op Mode (Safety Disabled)", group = "Driver Op Mode")
+public class BasicOpModeSafetyDisabled extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
     private Robot robot;
@@ -25,6 +25,8 @@ public class BasicOpMode extends LinearOpMode {
 
 
 
+        //telemetry.update();
+
 
 
 
@@ -41,11 +43,9 @@ public class BasicOpMode extends LinearOpMode {
         telemetry.addData("Strafe Right", "Right Trigger");
         telemetry.addData("Forward/Back", "LEFT Stick up/down");
         telemetry.addData("Rotate", "RIGHT Stick left/right");
-        telemetry.addData("Flywheel On", "MUST Hold ALL Left Bumper + Right Bumper + X");
-        telemetry.addData("Flywheel Off", "Release any Left Bumper / Right Bumper / X");
+        telemetry.addData("Flywheel On", "Push X to Switch on");
+        telemetry.addData("Flywheel Off", "Push B to Switch off");
         telemetry.addData("Good luck!", "DONT CRASH THE ROBOT PLS :)");
-        //telemetry.update();
-
         telemetry.update();
 
         waitForStart();
@@ -65,22 +65,26 @@ public class BasicOpMode extends LinearOpMode {
         double lateral = (0.6 * (driverController.left_trigger - driverController.right_trigger)); // Strafing
         double yaw = (-0.6 * driverController.left_stick_y); // Rotate
 
-        // Pass a fourth parameter (0 for now) to match the method signature
-        robot.updateDriveMotors(axial, lateral, yaw, 0);
+        robot.updateDriveMotors(axial, lateral, yaw,0);
     }
 
-    // Update flywheel motors based on button presses
+    // Update flywheel motors based on X and B button presses
     private void updateFlywheel() {
-        // If both bumpers and X are pressed, start flywheel
-        if (driverController.left_bumper && driverController.right_bumper && driverController.x) {
-            flywheelControl = true;  // Enable flywheel control
-            robot.updateFlywheelMotors(1.0);  // Run the flywheel at full speed
+        // Standard X (on) and B (off) control
+        if (driverController.x) {
+            flywheelControl = true;
+        } else if (driverController.b) {
+            flywheelControl = false;
+        }
+
+        if (flywheelControl) {
+            robot.updateFlywheelMotors(1.0);  // Full speed on flywheel
             // IF YOU WANT TO CHANGE THE FLYWHEEL POWER, DO NOT DO IT HERE.
             // <-- Open the "Robot" file on the left sidebar and scroll to the bottom.
         } else {
-            flywheelControl = false;  // Disable flywheel control
-            robot.updateFlywheelMotors(0.0);  // Stop the flywheel
+            robot.updateFlywheelMotors(0.0);  // Stop flywheel
             // IF YOU WANT TO CHANGE THE FLYWHEEL POWER, DO NOT DO IT HERE.
-        }   // <-- Open the "Robot" file on the left sidebar and scroll to the bottom.
+            // <-- Open the "Robot" file on the left sidebar and scroll to the bottom.
+        }
     }
 }

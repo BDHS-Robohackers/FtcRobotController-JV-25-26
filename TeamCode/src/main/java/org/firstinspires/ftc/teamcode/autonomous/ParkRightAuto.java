@@ -35,26 +35,25 @@ public class ParkRightAuto extends LinearOpMode {
         telemetry.addData("at power", FORWARD_SPEED);
         telemetry.update();
 
-
         waitForStart();
 
         time.reset();
         while (opModeIsActive()) {
             if (time.seconds() < 1) {
                 // Idle
-                robot.updateDriveMotors(0, 0, 0);
+                robot.updateDriveMotors(0, 0, 0, 0);
             } else if (time.seconds() < 1 + FORWARD_TIME) {
-                // Move forward a smidge
-                robot.updateDriveMotors(FORWARD_SPEED, 0, 0);
+                // Move forward
+                robot.updateDriveMotors(FORWARD_SPEED, 0, 0, 0);
             } else if (time.seconds() < 1 + FORWARD_TIME + STRAFE_TIME) {
                 // Strafe the specified direction
-                robot.updateDriveMotors(0, STRAFE_SPEED, 0);
-            } else if (AutonomousConfig.MOVE_BACKWARDS && time.seconds() < 1 + FORWARD_TIME + STRAFE_TIME + FORWARD_SPEED) {
-                // Go backwards a smidge
-                robot.updateDriveMotors(-FORWARD_SPEED, 0, 0);
+                robot.updateDriveMotors(0, STRAFE_SPEED, 0, 0);
+            } else if (time.seconds() < 1 + FORWARD_TIME + STRAFE_TIME + FORWARD_TIME) {
+                // Go backwards
+                robot.updateDriveMotors(-FORWARD_SPEED, 0, 0, 0);
             } else {
                 // Stop the robot
-                robot.updateDriveMotors(0, 0, 0);
+                robot.updateDriveMotors(0, 0, 0, 0);
             }
         }
     }

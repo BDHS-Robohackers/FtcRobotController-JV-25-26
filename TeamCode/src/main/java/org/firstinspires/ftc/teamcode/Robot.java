@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 public class Robot {
 
@@ -11,6 +12,8 @@ public class Robot {
     public DcMotor rightBackDrive;
     public DcMotor rightFly;
     public DcMotor leftFly;
+
+    public Servo ethan;  // Add a Servo for Ethan control
 
     public Robot() {}
 
@@ -22,6 +25,8 @@ public class Robot {
             rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
             leftFly = hardwareMap.get(DcMotor.class, "leftFly");
             rightFly = hardwareMap.get(DcMotor.class, "rightFly");
+
+            ethan = hardwareMap.get(Servo.class, "ethan");  // Initialize the Ethan servo
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -63,10 +68,15 @@ public class Robot {
     }
 
     public void updateFlywheelMotors(double power) {
-        leftFly.setPower(-0.80*power);
-        rightFly.setPower(0.80*power);
-        // ^^^ FLYWHEEL POWER SETTINGS
-        // Change BOTH blue values to a percentage in decimal form.
-        // The top one MUST be Negative.
+        leftFly.setPower(-0.80 * power);
+        rightFly.setPower(0.80 * power);
+    }
+
+    // Update Ethan servo's position (forward or reverse) with clamped values
+    public void updateEthanServo(double position) {
+        // Clamp the position between some max and min value (??) to prevent it from going too far
+        position = Math.max(0.2, Math.min(position, 0.8));
+
+        ethan.setPosition(position);  // Set the clamped position of the Ethan servo (0.0 for reverse, 1.0 for forward)
     }
 }

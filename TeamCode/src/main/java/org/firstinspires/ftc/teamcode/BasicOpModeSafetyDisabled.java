@@ -23,19 +23,6 @@ public class BasicOpModeSafetyDisabled extends LinearOpMode {
         robot = new Robot();
         robot.initialize(hardwareMap);
 
-
-
-        //telemetry.update();
-
-
-
-
-
-
-
-
-
-
         // Wait for the robot to start (driver presses PLAY).
         telemetry.addData("Status", "Initialized.");
         telemetry.addData("Controls", "Use the following controls:");
@@ -45,6 +32,7 @@ public class BasicOpModeSafetyDisabled extends LinearOpMode {
         telemetry.addData("Rotate", "RIGHT Stick left/right");
         telemetry.addData("Flywheel On", "Push X to Switch on");
         telemetry.addData("Flywheel Off", "Push B to Switch off");
+        telemetry.addData("Ethan Servo Control", "D-pad Up: Forward, D-pad Down: Reverse");
         telemetry.addData("Good luck!", "DONT CRASH THE ROBOT PLS :)");
         telemetry.update();
 
@@ -55,6 +43,7 @@ public class BasicOpModeSafetyDisabled extends LinearOpMode {
         while (opModeIsActive()) {
             updateDrive();
             updateFlywheel();
+            updateEthanServo();  // Update Ethan servo control based on D-pad input
             telemetry.update();
         }
     }
@@ -65,7 +54,7 @@ public class BasicOpModeSafetyDisabled extends LinearOpMode {
         double lateral = (0.6 * (driverController.left_trigger - driverController.right_trigger)); // Strafing
         double yaw = (-0.6 * driverController.left_stick_y); // Rotate
 
-        robot.updateDriveMotors(axial, lateral, yaw,0);
+        robot.updateDriveMotors(axial, lateral, yaw, 0);
     }
 
     // Update flywheel motors based on X and B button presses
@@ -79,12 +68,17 @@ public class BasicOpModeSafetyDisabled extends LinearOpMode {
 
         if (flywheelControl) {
             robot.updateFlywheelMotors(1.0);  // Full speed on flywheel
-            // IF YOU WANT TO CHANGE THE FLYWHEEL POWER, DO NOT DO IT HERE.
-            // <-- Open the "Robot" file on the left sidebar and scroll to the bottom.
         } else {
             robot.updateFlywheelMotors(0.0);  // Stop flywheel
-            // IF YOU WANT TO CHANGE THE FLYWHEEL POWER, DO NOT DO IT HERE.
-            // <-- Open the "Robot" file on the left sidebar and scroll to the bottom.
+        }
+    }
+
+    // Update Ethan servo based on D-pad input
+    private void updateEthanServo() {
+        if (driverController.dpad_up) {
+            robot.updateEthanServo(1.0);  // Move Ethan forward (servo position 1.0)
+        } else if (driverController.dpad_down) {
+            robot.updateEthanServo(0.0);  // Move Ethan reverse (servo position 0.0)
         }
     }
 }

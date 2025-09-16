@@ -23,17 +23,6 @@ public class BasicOpMode extends LinearOpMode {
         robot = new Robot();
         robot.initialize(hardwareMap);
 
-
-
-
-
-
-
-
-
-
-
-
         // Wait for the robot to start (driver presses PLAY).
         telemetry.addData("Status", "Initialized.");
         telemetry.addData("Controls", "Use the following controls:");
@@ -43,9 +32,8 @@ public class BasicOpMode extends LinearOpMode {
         telemetry.addData("Rotate", "RIGHT Stick left/right");
         telemetry.addData("Flywheel On", "MUST Hold ALL Left Bumper + Right Bumper + X");
         telemetry.addData("Flywheel Off", "Release any Left Bumper / Right Bumper / X");
+        telemetry.addData("Ethan Servo Control", "D-pad Up: Forward, D-pad Down: Reverse");
         telemetry.addData("Good luck!", "DONT CRASH THE ROBOT PLS :)");
-        //telemetry.update();
-
         telemetry.update();
 
         waitForStart();
@@ -55,6 +43,7 @@ public class BasicOpMode extends LinearOpMode {
         while (opModeIsActive()) {
             updateDrive();
             updateFlywheel();
+            updateEthanServo();  // Update Ethan servo control based on D-pad input
             telemetry.update();
         }
     }
@@ -75,12 +64,18 @@ public class BasicOpMode extends LinearOpMode {
         if (driverController.left_bumper && driverController.right_bumper && driverController.x) {
             flywheelControl = true;  // Enable flywheel control
             robot.updateFlywheelMotors(1.0);  // Run the flywheel at full speed
-            // IF YOU WANT TO CHANGE THE FLYWHEEL POWER, DO NOT DO IT HERE.
-            // <-- Open the "Robot" file on the left sidebar and scroll to the bottom.
         } else {
             flywheelControl = false;  // Disable flywheel control
             robot.updateFlywheelMotors(0.0);  // Stop the flywheel
-            // IF YOU WANT TO CHANGE THE FLYWHEEL POWER, DO NOT DO IT HERE.
-        }   // <-- Open the "Robot" file on the left sidebar and scroll to the bottom.
+        }
+    }
+
+    // Update Ethan servo based on D-pad input
+    private void updateEthanServo() {
+        if (driverController.dpad_up) {
+            robot.updateEthanServo(1.0);  // Move Ethan forward (servo position 1.0)
+        } else if (driverController.dpad_down) {
+            robot.updateEthanServo(0.0);  // Move Ethan reverse (servo position 0.0)
+        }
     }
 }

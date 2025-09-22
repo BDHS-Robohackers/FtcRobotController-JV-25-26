@@ -38,9 +38,8 @@ public class Robot {
      * @param axial forward is positive, backward is negative
      * @param lateral left is positive, right is negative
      * @param yaw clockwise is positive, counter-clockwise is negative
-     * @param someOtherControl used for any additional control, if necessary
      */
-    public void updateDriveMotors(double axial, double lateral, double yaw, double someOtherControl) {
+    public void updateDriveMotors(double axial, double lateral, double yaw) {
         double max;
 
         // Combine the joystick requests for each axis-motion to determine each wheel's power.

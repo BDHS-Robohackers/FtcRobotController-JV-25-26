@@ -55,7 +55,7 @@ public class BasicOpMode extends LinearOpMode {
         double yaw = (-0.6 * driverController.left_stick_y); // Rotate
 
         // Pass a fourth parameter (0 for now) to match the method signature
-        robot.updateDriveMotors(axial, lateral, yaw, 0);
+        robot.updateDriveMotors(axial, lateral, yaw);
     }
 
     // Update flywheel motors based on button presses

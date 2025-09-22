@@ -54,7 +54,7 @@ public class BasicOpModeSafetyDisabled extends LinearOpMode {
         double lateral = (0.6 * (driverController.left_trigger - driverController.right_trigger)); // Strafing
         double yaw = (-0.6 * driverController.left_stick_y); // Rotate
 
-        robot.updateDriveMotors(axial, lateral, yaw, 0);
+        robot.updateDriveMotors(axial, lateral, yaw);
     }
 
     // Update flywheel motors based on X and B button presses

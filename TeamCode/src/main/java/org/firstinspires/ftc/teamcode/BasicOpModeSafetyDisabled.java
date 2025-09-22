@@ -75,9 +75,9 @@ public class BasicOpModeSafetyDisabled extends LinearOpMode {
 
     // Update Ethan servo based on D-pad input
     private void updateEthanServo() {
-        if (driverController.dpad_up) {
+        if (driverController.dpad_down) {
             robot.updateEthanServo(1.0);  // Move Ethan forward (servo position 1.0)
-        } else if (driverController.dpad_down) {
+        } else if (driverController.dpad_up) {
             robot.updateEthanServo(0.0);  // Move Ethan reverse (servo position 0.0)
         }
     }

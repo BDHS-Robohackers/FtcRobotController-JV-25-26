@@ -19,7 +19,7 @@ public class BasicOpModeSafetyDisabled extends LinearOpMode {
     @Override
     public void runOpMode() {
         driverController = gamepad1;
-        armController = gamepad2;
+        //armController = gamepad2;
         robot = new Robot();
         robot.initialize(hardwareMap);
 
@@ -33,7 +33,7 @@ public class BasicOpModeSafetyDisabled extends LinearOpMode {
         telemetry.addData("Flywheel On", "Push X to Switch on");
         telemetry.addData("Flywheel Off", "Push B to Switch off");
         telemetry.addData("Ethan Servo Control", "D-pad Up: Forward, D-pad Down: Reverse");
-        telemetry.addData("Good luck!", "DONT CRASH THE ROBOT PLS :)");
+        telemetry.addData("Good luck!", "DON'T CRASH THE ROBOT PLS :)");
         telemetry.update();
 
         waitForStart();

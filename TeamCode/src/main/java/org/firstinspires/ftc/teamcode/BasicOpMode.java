@@ -8,13 +8,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name = "Driver Op Mode (SAFE)", group = "Driver Op Mode")
 public class BasicOpMode extends LinearOpMode {
 
+    /** @noinspection FieldMayBeFinal*/
     private ElapsedTime runtime = new ElapsedTime();
     private Robot robot;
 
     private Gamepad driverController;
-    //private Gamepad armController;
+    //private Gamepad armController; This is not needed because we are not using the 2nd controller at this time
 
-    private boolean flywheelControl = false;
+    //private boolean flywheelControl = false;
 
     @Override
     public void runOpMode() {
@@ -62,10 +63,10 @@ public class BasicOpMode extends LinearOpMode {
     private void updateFlywheel() {
         // If both bumpers and X are pressed, start flywheel
         if (driverController.left_bumper && driverController.right_bumper && driverController.x) {
-            flywheelControl = true;  // Enable flywheel control
+            //flywheelControl = true;  // Enable flywheel control
             robot.updateFlywheelMotors(1.0);  // Run the flywheel at full speed
         } else {
-            flywheelControl = false;  // Disable flywheel control
+            //flywheelControl = false;  // Disable flywheel control
             robot.updateFlywheelMotors(0.0);  // Stop the flywheel
         }
     }

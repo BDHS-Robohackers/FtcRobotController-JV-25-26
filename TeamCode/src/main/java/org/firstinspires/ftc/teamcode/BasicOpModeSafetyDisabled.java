@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name = "Driver Op Mode (Safety Disabled)", group = "Driver Op Mode")
 public class BasicOpModeSafetyDisabled extends LinearOpMode {
 
+    /** @noinspection FieldMayBeFinal*/
     private ElapsedTime runtime = new ElapsedTime();
     private Robot robot;
 

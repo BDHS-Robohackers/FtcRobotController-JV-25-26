@@ -1,10 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.util.Log; // Import for logging
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class Robot {
+
+    private static final String TAG = "Robot"; // Tag for logging
 
     public DcMotor leftFrontDrive;
     public DcMotor leftBackDrive;
@@ -13,7 +17,7 @@ public class Robot {
     public DcMotor rightFly;
     public DcMotor leftFly;
 
-    public Servo ethan;  // Add a Servo for Ethan control
+    public Servo ethan;  // Servo for Ethan control
 
     public Robot() {}
 
@@ -26,10 +30,10 @@ public class Robot {
             leftFly = hardwareMap.get(DcMotor.class, "leftFly");
             rightFly = hardwareMap.get(DcMotor.class, "rightFly");
 
-            ethan = hardwareMap.get(Servo.class, "ethan");  // Initialize the Ethan servo
+            ethan = hardwareMap.get(Servo.class, "ethan");
 
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "Error initializing hardware", e); // Replaces e.printStackTrace()
         }
     }
 
@@ -73,9 +77,8 @@ public class Robot {
 
     // Update Ethan servo's position (forward or reverse) with clamped values
     public void updateEthanServo(double position) {
-        // Clamp the position between some max and min value (??) to prevent it from going too far
+        // Clamp the position between some max and min value to prevent it from going too far
         position = Math.max(0.0, Math.min(position, 1.0));
-
-        ethan.setPosition(position);  // Set the clamped position of the Ethan servo (0.0 for reverse, 1.0 for forward)
+        ethan.setPosition(position);
     }
 }

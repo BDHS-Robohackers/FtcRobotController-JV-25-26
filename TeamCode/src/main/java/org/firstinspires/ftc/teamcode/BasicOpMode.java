@@ -12,14 +12,14 @@ public class BasicOpMode extends LinearOpMode {
     private Robot robot;
 
     private Gamepad driverController;
-    private Gamepad armController;
+    //private Gamepad armController;
 
     private boolean flywheelControl = false;
 
     @Override
     public void runOpMode() {
         driverController = gamepad1;
-        armController = gamepad2;
+        //armController = gamepad2;
         robot = new Robot();
         robot.initialize(hardwareMap);
 
@@ -33,7 +33,7 @@ public class BasicOpMode extends LinearOpMode {
         telemetry.addData("Flywheel On", "MUST Hold ALL Left Bumper + Right Bumper + X");
         telemetry.addData("Flywheel Off", "Release any Left Bumper / Right Bumper / X");
         telemetry.addData("Ethan Servo Control", "D-pad Up: Forward, D-pad Down: Reverse");
-        telemetry.addData("Good luck!", "DONT CRASH THE ROBOT PLS :)");
+        telemetry.addData("Good luck!", "DON'T CRASH THE ROBOT PLS :)");
         telemetry.update();
 
         waitForStart();

@@ -12,7 +12,7 @@ public class BasicOpModeSafetyDisabled extends LinearOpMode {
     private Robot robot;
 
     private Gamepad driverController;
-    private Gamepad armController;
+    //private Gamepad armController;
 
     private boolean flywheelControl = false;
 

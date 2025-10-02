@@ -71,8 +71,8 @@ public class Robot {
     }
 
     public void updateFlywheelMotors(double power) {
-        leftFly.setPower(-0.65 * power);
-        rightFly.setPower(0.65 * power);
+        leftFly.setPower(-1 * power);
+        rightFly.setPower(1 * power);
     }
 
     // Update Ethan servo's position (forward or reverse) with clamped values

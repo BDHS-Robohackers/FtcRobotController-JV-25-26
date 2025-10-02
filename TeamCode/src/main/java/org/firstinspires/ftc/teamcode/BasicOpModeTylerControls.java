@@ -16,6 +16,7 @@ public class BasicOpModeTylerControls extends LinearOpMode {
     //private Gamepad armController;
 
     private double flywheelControl = 0;
+    private boolean isTheButtonPressed = false;
 
     @Override
     public void runOpMode() {
@@ -44,6 +45,7 @@ public class BasicOpModeTylerControls extends LinearOpMode {
         while (opModeIsActive()) {
             updateDrive();
             updateFlywheel();
+            telemetry.addData("Flywheel %",flywheelControl*100);
             updateEthanServo();  // Update Ethan servo control based on D-pad input
             telemetry.update();
         }
@@ -71,6 +73,18 @@ public class BasicOpModeTylerControls extends LinearOpMode {
             flywheelControl = 0.50;
         } else if (driverController.a) {
             flywheelControl = 0.40;
+        } else if (driverController.start) {
+            if (!isTheButtonPressed) {
+               flywheelControl += 0.05;
+               isTheButtonPressed = true;
+            }
+        } else if (driverController.back) {
+            if (!isTheButtonPressed) {
+                flywheelControl -= 0.05;
+                isTheButtonPressed = true;
+            }
+        } else {
+            isTheButtonPressed = false;
         }
 
         if (flywheelControl != 0) {

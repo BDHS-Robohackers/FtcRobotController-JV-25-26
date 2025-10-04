@@ -1,6 +1,10 @@
 package org.firstinspires.ftc.teamcode.autonomous;
 
+import androidx.annotation.NonNull;
+
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -10,22 +14,18 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
-import org.firstinspires.ftc.teamcode.MecanumDrive;
-import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
-import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
-import androidx.annotation.NonNull;
-
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
-import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+import org.firstinspires.ftc.teamcode.MecanumDrive;
+
+import java.util.List;
 
 @Config
-@Autonomous(name = "BlueAuto", group = "Autonomous")
-public class NewBlueTest extends LinearOpMode {
+@Autonomous(name = "SixBall", group = "Autonomous")
+public class SixBallAutoTest extends LinearOpMode {
     int visionOutputPosition = 0;
 
     public class shooter {
@@ -110,7 +110,7 @@ public class NewBlueTest extends LinearOpMode {
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
         shooter shooter = new shooter(hardwareMap);
         kick kick = new kick(hardwareMap);
-      //  AprilTagProcessor tagProcessor = new AprilTagProcessor.Builder();
+       // AprilTagProcessor tagProcessor = new AprilTagProcessor.Builder();
         while (!isStopRequested() && !opModeIsActive()) {
             int position = visionOutputPosition;
             telemetry.addData("Position during Init", position);
@@ -143,16 +143,16 @@ public class NewBlueTest extends LinearOpMode {
         TrajectoryActionBuilder shootSet2 = drive.actionBuilder(initialPose)
                 .strafeToLinearHeading(new Vector2d(7,-60), Math.toRadians(145));
 //Pick apriltagid
-    /*
+/*
         Action tripletChosen;
-        if (apriltagid==23){
+        if (apriltagid == 23){
             tripletChosen = intakeTopSet.build();
         } else if (apriltagid == 22) {
             tripletChosen = intakeMiddleSet.build();
         } else {
             tripletChosen = intakeBottomSet.build();
         }
-        */
+*/
 //Stuff That's run
         Actions.runBlocking(new SequentialAction(
                 shootSet1.build(),
@@ -172,11 +172,16 @@ public class NewBlueTest extends LinearOpMode {
                                 new SleepAction(1),
                                 kick.kickDown(),
                                 shooter.spinDown()
-                            )
                         )
-
+                ),
+                //tripletChosen,
+                new ParallelAction(
+                        //Start Intake
+                        new SequentialAction(
+                                intaking.build()
+                                //Stop Intake
+                                )
                 )
-
-        );
+        ));
     }
 }

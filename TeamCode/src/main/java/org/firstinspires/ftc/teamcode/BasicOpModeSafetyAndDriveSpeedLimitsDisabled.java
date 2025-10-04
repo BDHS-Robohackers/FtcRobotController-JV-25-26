@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name = "Driver Op Mode (Safety Disabled)", group = "Driver Op Mode")
-public class BasicOpModeSafetyDisabled extends LinearOpMode {
+@TeleOp(name = "Driver Op Mode (Safety + Drive Speed Limits Disabled)", group = "Driver Op Mode")
+public class BasicOpModeSafetyAndDriveSpeedLimitsDisabled extends LinearOpMode {
 
     /** @noinspection FieldMayBeFinal*/
     private ElapsedTime runtime = new ElapsedTime();
@@ -52,8 +52,8 @@ public class BasicOpModeSafetyDisabled extends LinearOpMode {
     // Update driving controls (tank drive or similar).
     private void updateDrive() {
         double axial = (1.0 * driverController.right_stick_x); // Forward Back
-        double lateral = (0.6 * (driverController.left_trigger - driverController.right_trigger)); // Strafing
-        double yaw = (-0.6 * driverController.left_stick_y); // Rotate
+        double lateral = (1.0 * (driverController.left_trigger - driverController.right_trigger)); // Strafing
+        double yaw = (-1.0 * driverController.left_stick_y); // Rotate
 
         robot.updateDriveMotors(axial, lateral, yaw);
     }

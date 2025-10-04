@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name = "Driver Op Mode (Safety Disabled)", group = "Driver Op Mode")
-public class BasicOpModeSafetyDisabled extends LinearOpMode {
+@TeleOp(name = "Driver Op Mode (Tyler's Controls)", group = "Driver Op Mode")
+public class BasicOpModeTylerControls extends LinearOpMode {
 
     /** @noinspection FieldMayBeFinal*/
     private ElapsedTime runtime = new ElapsedTime();
@@ -15,7 +15,8 @@ public class BasicOpModeSafetyDisabled extends LinearOpMode {
     private Gamepad driverController;
     //private Gamepad armController;
 
-    private boolean flywheelControl = false;
+    private double flywheelControl = 0;
+    private boolean isTheButtonPressed = false;
 
     @Override
     public void runOpMode() {
@@ -44,6 +45,7 @@ public class BasicOpModeSafetyDisabled extends LinearOpMode {
         while (opModeIsActive()) {
             updateDrive();
             updateFlywheel();
+            telemetry.addData("Flywheel %",flywheelControl*100);
             updateEthanServo();  // Update Ethan servo control based on D-pad input
             telemetry.update();
         }
@@ -60,15 +62,33 @@ public class BasicOpModeSafetyDisabled extends LinearOpMode {
 
     // Update flywheel motors based on X and B button presses
     private void updateFlywheel() {
-        // Standard X (on) and B (off) control
-        if (driverController.x) {
-            flywheelControl = true;
+        // variable control based on buttons pushed
+        if (driverController.right_bumper) {
+            flywheelControl = 0;
+        } else if (driverController.x) {
+            flywheelControl = 1;
+        } else if (driverController.y) {
+            flywheelControl = 0.65;
         } else if (driverController.b) {
-            flywheelControl = false;
+            flywheelControl = 0.50;
+        } else if (driverController.a) {
+            flywheelControl = 0.40;
+        } else if (driverController.start) {
+            if (!isTheButtonPressed) {
+               flywheelControl += 0.05;
+               isTheButtonPressed = true;
+            }
+        } else if (driverController.back) {
+            if (!isTheButtonPressed) {
+                flywheelControl -= 0.05;
+                isTheButtonPressed = true;
+            }
+        } else {
+            isTheButtonPressed = false;
         }
 
-        if (flywheelControl) {
-            robot.updateFlywheelMotors(1.0);  // Full speed on flywheel
+        if (flywheelControl != 0) {
+            robot.updateFlywheelMotors(flywheelControl);  // variable speed on flywheel depending on button
         } else {
             robot.updateFlywheelMotors(0.0);  // Stop flywheel
         }
